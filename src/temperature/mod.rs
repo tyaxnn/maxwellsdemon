@@ -1,12 +1,17 @@
 use bevy::prelude::*;
 
-use crate::entities::{spawn_ball::Velocity, ScoreText};
+use crate::entities::{spawn_ball::Velocity, spawn_text::ScoreText};
+
+use crate::StartGame;
 
 pub fn calculate_temperature(
     query : Query<(&Transform, &Velocity)>,
 
     score_text: Single<Entity, With<ScoreText>>,
     mut writer: TextUiWriter,
+
+    mut start_info: ResMut<StartGame>,
+    
 ){
     let mut left_e = 0.;
     let mut right_e = 0.;
@@ -31,9 +36,11 @@ pub fn calculate_temperature(
     let left_t = left_e / left_n as f32;
     let right_t = right_e / right_n as f32;
 
-    let carnot = round3(carnot(left_t, right_t));
+    let carnot = (carnot(left_t, right_t) * 100.).round();
 
     *writer.text(*score_text, 0) = format!("L_T : {} score : {}, R_T : {}",round3(left_t),carnot,round3(right_t));
+
+    start_info.score = carnot;
 }
 
 fn round3(x : f32) -> f32 {

@@ -85,7 +85,14 @@ pub fn spawn_balls(
             Ball,
             Velocity(property.ini_dir * property.speed),
         ));
+    } 
+}
+
+pub fn despawn_balls(
+    query: Query<Entity, With<Ball>>,
+    mut commands: Commands,
+){
+    for entity in &query {
+        commands.entity(entity).despawn_recursive();
     }
-    
-    
 }
