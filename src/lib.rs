@@ -15,7 +15,7 @@ mod temperature;
 use temperature::calculate_temperature;
 //=========================//
 
-const TimeLimit : f32 = 99.;
+const TIME_LIMIT : f32 = 99.;
 
 // Enum that will be used as a global state for the game
 #[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
@@ -64,7 +64,7 @@ fn go_to_result(
 ){
     let elapsed_time = time.elapsed_secs() - start_info.time;
 
-    if elapsed_time > TimeLimit{
+    if elapsed_time > TIME_LIMIT{
         game_state.set(GameState::Result);
         despawn_balls(query, commands);
     }
@@ -79,7 +79,7 @@ fn update_remaining_time(
 ){  
     match game_state.get(){
         GameState::Game => {
-            *writer.text(*remaining_time_text, 0) = format!("{}",(TimeLimit - (time.elapsed_secs() - start_time.time)).round());
+            *writer.text(*remaining_time_text, 0) = format!("{}",(TIME_LIMIT - (time.elapsed_secs() - start_time.time)).round());
         }
         _ => {
             *writer.text(*remaining_time_text, 0) = "".to_string();
@@ -93,10 +93,22 @@ fn display_score(
     mut writer: TextUiWriter,
     score_text: Single<Entity, With<ScoreText>>,
     start_info: ResMut<StartGame>,
+    game_state: Res<State<GameState>>,
     
 ){
-
-    *writer.text(*score_text, 0) = format!("score : {}",start_info.score);
+    match game_state.get(){
+        GameState::Game => {
+            *writer.text(*score_text, 0) = format!("score : {}",start_info.score);
+        }
+        GameState::Result => {
+            *writer.text(*score_text, 0) = format!("Finish! score : {}",start_info.score);
+        }
+        GameState::Menu => {
+            *writer.text(*score_text, 0) = format!("press space to start");
+        }
+    }
+    
+    
 
 }
 

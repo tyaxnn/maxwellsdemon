@@ -36,7 +36,7 @@ pub fn calculate_temperature(
     let left_t = left_e / left_n as f32;
     let right_t = right_e / right_n as f32;
 
-    let carnot = (carnot(left_t, right_t) * 100.).round();
+    let carnot = (carnot(left_t, right_t) * 10000.).round();
 
     *writer.text(*score_text, 0) = format!("L_T : {} score : {}, R_T : {}",round3(left_t),carnot,round3(right_t));
 
