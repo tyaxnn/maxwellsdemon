@@ -1,8 +1,5 @@
 use bevy::prelude::*;
-use rand::{
-    random_bool,
-    random_range,
-};
+use rand::random_range;
 use std::f32::consts::TAU;
 
 use crate::entities::spawn_wall::{
@@ -25,34 +22,34 @@ struct BallProperty{
 }
 
 impl BallProperty{
-    fn random() -> Self {
+    // fn random() -> Self {
 
-        let pos_x = if random_bool(0.5){
-            LEFT_WALL / 2.
+    //     let pos_x = if random_bool(0.5){
+    //         LEFT_WALL / 2.
 
-        }else{
-            RIGHT_WALL /2.
-        };
+    //     }else{
+    //         RIGHT_WALL /2.
+    //     };
 
 
 
-        let pos_y = (TOP_WALL + BOTTOM_WALL) / 2.;
+    //     let pos_y = (TOP_WALL + BOTTOM_WALL) / 2.;
 
-        let ini_coord = Vec3::new(pos_x,pos_y,0.);
+    //     let ini_coord = Vec3::new(pos_x,pos_y,0.);
 
-        let angle = random_range((0.)..TAU);
+    //     let angle = random_range((0.)..TAU);
 
-        let ini_dir = Vec2::new(angle.cos(), angle.sin()).normalize();
+    //     let ini_dir = Vec2::new(angle.cos(), angle.sin()).normalize();
 
-        let speed = random_range(BALL_MIN_SPEED..BALL_MAX_SPEED);
+    //     let speed = random_range(BALL_MIN_SPEED..BALL_MAX_SPEED);
         
-        BallProperty{
-            ini_dir,
-            ini_coord,
-            speed,
-        }
+    //     BallProperty{
+    //         ini_dir,
+    //         ini_coord,
+    //         speed,
+    //     }
 
-    }
+    //}
 
     fn random_2() -> (Self,Self) {
         let pos_x_left = LEFT_WALL / 2.;
@@ -148,5 +145,90 @@ pub fn despawn_balls(
 }
 
 fn boltzman() -> f32{
-    random_range(BALL_MIN_SPEED..BALL_MAX_SPEED)
+    let rand = random_range(0.0..1.0);
+    //let int_boltz = 0.994147;
+
+    let boltz;
+
+    if rand < 0.000747755{
+        boltz = random_range(0.0..0.1);
+    }
+    else if rand < 0.00587563{
+        boltz = random_range(0.1..0.2);
+    }
+    else if rand < 0.0192456{
+        boltz = random_range(0.2..0.3);
+    }
+    else if rand < 0.04377{
+        boltz = random_range(0.3..0.4);
+    }
+    else if rand < 0.0811{
+        boltz = random_range(0.4..0.5);
+    }
+    else if rand < 0.13151{
+        boltz = random_range(0.5..0.6);
+    }
+    else if rand < 0.1939{
+        boltz = random_range(0.6..0.7);
+    }
+    else if rand < 0.2661{
+        boltz = random_range(0.7..0.8);
+    }
+    else if rand < 0.3451{
+        boltz = random_range(0.8..0.9);
+    }
+    else if rand < 0.4276{
+        boltz = random_range(0.9..1.0);
+    }
+    else if rand < 0.51{
+        boltz = random_range(1.0..1.1);
+    }
+    else if rand < 0.59{
+        boltz = random_range(1.1..1.2);
+    }
+    else if rand < 0.6633{
+        boltz = random_range(1.2..1.3);
+    }
+    else if rand < 0.7298{
+        boltz = random_range(1.3..1.4);
+    }
+    else if rand < 0.7877{
+        boltz = random_range(1.4..1.5);
+    }
+    else if rand < 0.8368{
+        boltz = random_range(1.5..1.6);
+    }
+    else if rand < 0.8772{
+        boltz = random_range(1.6..1.7);
+    }
+    else if rand < 0.9095{
+        boltz = random_range(1.7..1.8);
+    }
+    else if rand < 0.9348{
+        boltz = random_range(1.8..1.9);
+    }
+    else if rand < 0.9540{
+        boltz = random_range(1.9..2.0);
+    }
+    else if rand < 0.9682{
+        boltz = random_range(2.0..2.1);
+    }
+    else if rand < 0.9785{
+        boltz = random_range(2.1..2.2);
+    }
+    else if rand < 0.9858{
+        boltz = random_range(2.2..2.3);
+    }
+    else if rand < 0.99{
+        boltz = random_range(2.3..2.4);
+    }
+    else{
+        boltz = random_range(2.4..2.5);
+    }
+
+    boltz / 2.5 * BALL_MAX_SPEED
+
+
+
+
 }

@@ -9,7 +9,9 @@ pub mod spawn_text;
 use spawn_wall::spawn_walls;
 use spawn_camera::spawn_camera;
 use spawn_demon::spawn_demon;
-use spawn_text::{spawn_remaining_time, spawn_score, spawn_left_temperature, spawn_right_temperature};
+use spawn_text::{spawn_remaining_time, spawn_score, spawn_left_temperature, spawn_right_temperature,spawn_demon_serif,spawn_top10_text};
+
+use crate::scores::OldScores;
 
 
 
@@ -24,6 +26,7 @@ impl Plugin for EntitiesPlugin {
 fn setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    old_scores: Res<OldScores>
 ){
     spawn_walls(&mut commands);
     spawn_camera(&mut commands);
@@ -32,4 +35,6 @@ fn setup(
     spawn_remaining_time(&mut commands, &asset_server);
     spawn_left_temperature(&mut commands, &asset_server);
     spawn_right_temperature(&mut commands, &asset_server);
+    spawn_demon_serif(&mut commands, &asset_server);
+    spawn_top10_text(&mut commands, &asset_server, old_scores);
 }

@@ -1,9 +1,11 @@
 use bevy::prelude::*;
 
+use crate::entities::spawn_text::Top10text;
 use crate::entities::{
     spawn_wall::RemovableWall,
     spawn_demon::Akuma,
-    spawn_ball::spawn_balls
+    spawn_ball::spawn_balls,
+    spawn_text::DemonSerif,
 };
 
 use crate::{GameState, StartGame};
@@ -65,6 +67,9 @@ pub fn change_state_to_game(
     commands: Commands,
     meshes: ResMut<Assets<Mesh>>,
     materials: ResMut<Assets<ColorMaterial>>,
+
+    mut writer: TextUiWriter,
+    score_text: Single<Entity, With<Top10text>>,
 ){
     if keys.just_pressed(KeyCode::Space){
         game_state.set(GameState::Game);
@@ -72,14 +77,19 @@ pub fn change_state_to_game(
         start_time.score = 0.0;
 
         spawn_balls(commands, meshes, materials);
+        *writer.text(*score_text, 0) = format!("");
     }
 }
 
 pub fn change_state_to_menu(
     keys: Res<ButtonInput<KeyCode>>,
     mut game_state: ResMut<NextState<GameState>>,
+
+    mut writer: TextUiWriter,
+    akuma_serif: Single<Entity, With<DemonSerif>>,
 ){
     if keys.just_pressed(KeyCode::Enter){
         game_state.set(GameState::Menu);
+        *writer.text(*akuma_serif, 0) = format!("ハイスコアめざして\nがんばろう");
     }
 }
