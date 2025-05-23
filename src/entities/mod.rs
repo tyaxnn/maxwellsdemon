@@ -9,7 +9,7 @@ pub mod spawn_text;
 use spawn_wall::spawn_walls;
 use spawn_camera::spawn_camera;
 use spawn_demon::spawn_demon;
-use spawn_text::{spawn_remaining_time, spawn_score};
+use spawn_text::{spawn_remaining_time, spawn_score, spawn_left_temperature, spawn_right_temperature};
 
 
 
@@ -30,4 +30,6 @@ fn setup(
     spawn_demon(&mut commands, &asset_server);
     spawn_score(&mut commands, &asset_server);
     spawn_remaining_time(&mut commands, &asset_server);
+    spawn_left_temperature(&mut commands, &asset_server);
+    spawn_right_temperature(&mut commands, &asset_server);
 }

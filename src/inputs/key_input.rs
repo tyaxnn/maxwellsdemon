@@ -79,7 +79,7 @@ pub fn change_state_to_menu(
     keys: Res<ButtonInput<KeyCode>>,
     mut game_state: ResMut<NextState<GameState>>,
 ){
-    if keys.just_pressed(KeyCode::Space){
+    if keys.just_pressed(KeyCode::Enter){
         game_state.set(GameState::Menu);
     }
 }

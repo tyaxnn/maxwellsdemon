@@ -3,7 +3,7 @@ use bevy::prelude::*;
 
 //=========================//
 mod entities;
-use entities::{spawn_text::RemainingTimeText, EntitiesPlugin, spawn_ball::{Ball,despawn_balls}, spawn_text::ScoreText};
+use entities::{spawn_ball::{despawn_balls, Ball}, spawn_text::{RightTemperatureText, LeftTemperatureText, RemainingTimeText, ScoreText}, EntitiesPlugin};
 
 mod inputs;
 use inputs::InputHandlePlugin;
@@ -51,6 +51,7 @@ pub fn run() {
         .add_systems(Update, calculate_temperature.run_if(in_state(GameState::Game)))
         .add_systems(Update, go_to_result.run_if(in_state(GameState::Game)))
         .add_systems(Update, display_score.run_if(in_state(GameState::Result)))
+        .add_systems(Update, display_score.run_if(in_state(GameState::Menu)))
         .add_systems(Update, update_remaining_time)
         .run();
 }
@@ -92,20 +93,23 @@ fn display_score(
 
     mut writer: TextUiWriter,
     score_text: Single<Entity, With<ScoreText>>,
+    left_temperature_text: Single<Entity, With<LeftTemperatureText>>,
+    right_temperature_text: Single<Entity, With<RightTemperatureText>>,
     start_info: ResMut<StartGame>,
     game_state: Res<State<GameState>>,
     
 ){
     match game_state.get(){
-        GameState::Game => {
-            *writer.text(*score_text, 0) = format!("score : {}",start_info.score);
-        }
         GameState::Result => {
-            *writer.text(*score_text, 0) = format!("Finish! score : {}",start_info.score);
+            *writer.text(*score_text, 0) = format!("しゅうりょう！あなたのスコアは : {}",start_info.score);
+            *writer.text(*left_temperature_text, 0) = format!("");
+            *writer.text(*right_temperature_text, 0) = format!("エンターをおしてもどる");
         }
         GameState::Menu => {
-            *writer.text(*score_text, 0) = format!("press space to start");
+            *writer.text(*score_text, 0) = format!("スペースキーをおしてスタート");
+            *writer.text(*right_temperature_text, 0) = format!("");
         }
+        _ => {}
     }
     
     

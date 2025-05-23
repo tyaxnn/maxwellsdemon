@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+use crate::entities::spawn_text::{LeftTemperatureText,RightTemperatureText};
 use crate::entities::{spawn_ball::Velocity, spawn_text::ScoreText};
 
 use crate::StartGame;
@@ -8,6 +9,8 @@ pub fn calculate_temperature(
     query : Query<(&Transform, &Velocity)>,
 
     score_text: Single<Entity, With<ScoreText>>,
+    left_temperature: Single<Entity, With<LeftTemperatureText>>,
+    right_temperature: Single<Entity, With<RightTemperatureText>>,
     mut writer: TextUiWriter,
 
     mut start_info: ResMut<StartGame>,
@@ -38,7 +41,9 @@ pub fn calculate_temperature(
 
     let carnot = (carnot(left_t, right_t) * 10000.).round();
 
-    *writer.text(*score_text, 0) = format!("L_T : {} score : {}, R_T : {}",round3(left_t),carnot,round3(right_t));
+    *writer.text(*score_text, 0) = format!("スコア : {}",carnot);
+    *writer.text(*left_temperature, 0) = format!("ひだりのおんど : {}" ,round3(left_t));
+    *writer.text(*right_temperature, 0) = format!("みぎのおんど : {}" ,round3(right_t));
 
     start_info.score = carnot;
 }
